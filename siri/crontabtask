@@ -1,0 +1,3 @@
+49 * * * * /home/ess/script/stopdatadwln.sh >/dev/null 2>&1
+50 * * * * /home/ess/script/datadwnl.sh >/dev/null 2>&1
+
