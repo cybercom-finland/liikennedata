@@ -59,7 +59,7 @@ do
 	# jos on suoritetaan wget, muuten tuhotaan ohjaustiedostot ja poistutaan
 	if [ $runnstatus == $RUNSCRIPTSTATUS ] 
 	then
-   		teksti=$(wget  -q -O - http://data.itsfactory.fi/siriaccess/vm/json);
+   		teksti=$(wget  -q -O - http://data.itsfactory.fi/siriaccess/vm/json | tr -d "\n" | tr -d "\r");
 		# lisätään rivin vaihto joka responsen perään
 		printf "%s\n" "$teksti" >> $FILENAME;
 	 
