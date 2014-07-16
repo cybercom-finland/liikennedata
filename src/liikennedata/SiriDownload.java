@@ -1,12 +1,22 @@
 package liikennedata;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import liikennedata.SiriObjects.SiriRoot;
 
@@ -22,6 +32,14 @@ public class SiriDownload {
 	
 	private final ExecutorService pool = Executors.newFixedThreadPool(10);
 	
+	/**
+	 * Starts downloading Siri data to a file specified in code.
+	 * Download can be interrupted by adding value "0" in file control.txt
+	 * @throws InterruptedException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws ExecutionException
+	 */
 	public void download() throws InterruptedException, MalformedURLException, IOException, ExecutionException {
 		
 		Number previousTimeStamp = null;
@@ -29,7 +47,7 @@ public class SiriDownload {
 		
 		File f = new File(filePath + controlFileName);
 		if (!f.exists()) {
-			System.err.println("No control file found, aborting");
+			System.err.println("No control file " + controlFileName + " found, aborting");
 			return;
 		}
 		
@@ -68,7 +86,7 @@ public class SiriDownload {
 	 * @throws IOException
 	 */
 	private Boolean shouldAbort() throws IOException {
-		List<String> lines = Files.readAllLines(Paths.get(filePath + controlFileName));
+		List<String> lines = Files.readAllLines(Paths.get(filePath + controlFileName), Charset.defaultCharset());
 		for (int b = 0; b < lines.size(); b++) {
 			if (!lines.get(b).startsWith("#")) { // # lines are comments
 				if (lines.get(b).contains("0")) { // If line contains 0, then we should abort

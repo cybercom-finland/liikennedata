@@ -1,33 +1,20 @@
 package liikennedata;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.security.PrivilegedExceptionAction;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+//import org.apache.hadoop.conf.Configuration;
+//import org.apache.hadoop.fs.FileSystem;
+//import org.apache.hadoop.fs.Path;
+//import org.apache.hadoop.mapred.JobClient;
+//import org.apache.hadoop.mapred.JobID;
+//import org.apache.hadoop.mapred.JobStatus;
+//import org.apache.hadoop.security.UserGroupInformation;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapred.JobID;
-import org.apache.hadoop.mapred.JobStatus;
-import org.apache.hadoop.security.UserGroupInformation;
-
-import liikennedata.SiriObjects.*;
-
-import com.google.gson.Gson;
-
-public class Test {
+public class SiriMain {
 
 	public static void main(String[] args) throws MalformedURLException, IOException, InterruptedException, ExecutionException, URISyntaxException  {
 
@@ -102,19 +89,19 @@ public class Test {
 	      System.out.println("Other type of file system "+fileSystem.getClass()));*/
 	}
 	
-	public static String getClasspathString() {
-	     StringBuffer classpath = new StringBuffer();
-	     ClassLoader applicationClassLoader = Test.class.getClassLoader();
-	     if (applicationClassLoader == null) {
-	         applicationClassLoader = ClassLoader.getSystemClassLoader();
-	     }
-	     URL[] urls = ((URLClassLoader)applicationClassLoader).getURLs();
-	      for(int i=0; i < urls.length; i++) {
-	          classpath.append(urls[i].getFile()).append("\r\n");
-	      }    
-	     
-	      return classpath.toString();
-	  }
+//	public static String getClasspathString() {
+//	     StringBuffer classpath = new StringBuffer();
+//	     ClassLoader applicationClassLoader = SiriMain.class.getClassLoader();
+//	     if (applicationClassLoader == null) {
+//	         applicationClassLoader = ClassLoader.getSystemClassLoader();
+//	     }
+//	     URL[] urls = ((URLClassLoader)applicationClassLoader).getURLs();
+//	      for(int i=0; i < urls.length; i++) {
+//	          classpath.append(urls[i].getFile()).append("\r\n");
+//	      }    
+//	     
+//	      return classpath.toString();
+//	  }
 
 	
 
