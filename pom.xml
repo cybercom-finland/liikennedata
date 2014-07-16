@@ -6,11 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Liikennedata</name>
 	<description>Liikennedata project's package</description>
-	
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
+			<!-- This plugin is for compiling the .jar package -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -19,21 +20,35 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+			<!-- This plugin is for executing the project's main class. The project can therefore be run with: "mvn exec:java &" -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.3.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>liikennedata.SiriMain</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
-	<!-- 
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-core</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-core</artifactId> 
+			<version>1.2.1</version> </dependency> 
+			-->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
