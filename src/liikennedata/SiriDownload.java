@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 
 public class SiriDownload {
 	
-	private final String filePath = "./";
+	private final String filePath = "../";
 	private final String outputFileName = "siridata.txt";
 	private final String controlFileName = "control.txt";
 	private final String siriUrl = "http://data.itsfactory.fi/siriaccess/vm/json";
@@ -51,7 +51,7 @@ public class SiriDownload {
 			return;
 		}
 		
-		for (int a = 0; a < 100; a++) {
+		while (true) {
 			if (shouldAbort()) {
 				System.out.println("Control set to inactive, stopping download");
 				break;
