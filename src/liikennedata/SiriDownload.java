@@ -83,7 +83,7 @@ public class SiriDownload {
 
 					try (PrintWriter out = new PrintWriter(new BufferedWriter(
 							new FileWriter(filePath + outputFileName, true)))) {
-						out.print(contents);
+						out.println(contents);
 						numOfErrors = 0; // reset errors upon successful retrieval
 						
 					} catch (IOException e) {
