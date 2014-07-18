@@ -57,9 +57,9 @@ public class SiriDownload {
 					+ " found, aborting");
 			return;
 		}
-		
+
 		int numOfErrors = 0;
-		
+
 		while (true) {
 			try {
 				if (shouldAbort()) {
@@ -81,17 +81,13 @@ public class SiriDownload {
 						|| stamp.doubleValue() != previousTimeStamp
 								.doubleValue()) {
 
-					try (PrintWriter out = new PrintWriter(new BufferedWriter(
-							new FileWriter(filePath + outputFileName, true)))) {
-						out.println(contents);
-						numOfErrors = 0; // reset errors upon successful retrieval
-						
-					} catch (IOException e) {
-						logger.error(e);
-					}
-
+					PrintWriter out = new PrintWriter(new BufferedWriter(
+							new FileWriter(filePath + outputFileName, true)));
+					out.println(contents);
+					out.close();
+					numOfErrors = 0; // reset errors upon successful retrieval
 					previousTimeStamp = stamp;
-					Thread.sleep(sleepTimeMs);
+
 				}
 			} catch (Exception e) {
 				logger.error(e);
@@ -100,6 +96,8 @@ public class SiriDownload {
 					logger.error("Exceeded error threshold, aborting");
 					return;
 				}
+			} finally {
+				Thread.sleep(sleepTimeMs); // Sleep for a while
 			}
 		}
 
