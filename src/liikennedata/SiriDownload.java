@@ -32,6 +32,7 @@ public class SiriDownload {
 	private final String controlFileName = "control.txt";
 	private final String siriUrl = "http://data.itsfactory.fi/siriaccess/vm/json";
 	private final int sleepTimeMs = 1000;
+	private final int numberOfErrorsToAllowBeforeGivingUp = 5;
 
 	private final ExecutorService pool = Executors.newFixedThreadPool(10);
 	private static Logger logger = Logger.getLogger(SiriDownload.class);
@@ -45,8 +46,7 @@ public class SiriDownload {
 	 * @throws IOException
 	 * @throws ExecutionException
 	 */
-	public void download() throws InterruptedException, MalformedURLException,
-			IOException, ExecutionException {
+	public void download() {
 
 		Number previousTimeStamp = null;
 		Number stamp = null;
@@ -81,23 +81,28 @@ public class SiriDownload {
 						|| stamp.doubleValue() != previousTimeStamp
 								.doubleValue()) {
 
-					PrintWriter out = new PrintWriter(new BufferedWriter(
-							new FileWriter(filePath + outputFileName, true)));
-					out.println(contents);
-					out.close();
-					numOfErrors = 0; // reset errors upon successful retrieval
-					previousTimeStamp = stamp;
+					try (PrintWriter out = new PrintWriter(new BufferedWriter(
+							new FileWriter(filePath + outputFileName, true)))) {
+						out.println(contents);
+						numOfErrors = 0; // reset errors upon successful
+											// retrieval
+						previousTimeStamp = stamp;
+					}
 
 				}
 			} catch (Exception e) {
 				logger.error(e);
 				numOfErrors++;
-				if (numOfErrors > 5) {
+				if (numOfErrors > numberOfErrorsToAllowBeforeGivingUp) {
 					logger.error("Exceeded error threshold, aborting");
 					return;
 				}
 			} finally {
-				Thread.sleep(sleepTimeMs); // Sleep for a while
+				try {
+					Thread.sleep(sleepTimeMs); // Sleep for a while
+				} catch (InterruptedException e) {
+					logger.error(e);
+				} 
 			}
 		}
 

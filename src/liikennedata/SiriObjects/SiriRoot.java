@@ -1,7 +1,6 @@
 
 package liikennedata.SiriObjects;
 
-import java.util.List;
 
 /**
  * Root for the Siri classes.

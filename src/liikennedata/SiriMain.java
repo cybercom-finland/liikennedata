@@ -16,10 +16,14 @@ import java.util.concurrent.ExecutionException;
 
 public class SiriMain {
 
-	public static void main(String[] args) throws MalformedURLException, IOException, InterruptedException, ExecutionException, URISyntaxException  {
+	public static void main(String[] args) {
 
 		SiriDownload dl = new SiriDownload();
 		dl.download();
+		
+		
+		
+		
 		
 		/*
 		String uri = "hdfs://10.33.24.20:8042/";
@@ -87,6 +91,8 @@ public class SiriMain {
 	    }
 	    else {
 	      System.out.println("Other type of file system "+fileSystem.getClass()));*/
+		
+		System.exit(0); // Called when the execution ends. For some reason the process stays in background without this.
 	}
 	
 //	public static String getClasspathString() {
