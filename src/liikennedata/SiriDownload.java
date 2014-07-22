@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import liikennedata.SiriObjects.SiriRoot;
@@ -31,8 +30,9 @@ public class SiriDownload {
 	private final String outputFileName = "siridata.txt";
 	private final String controlFileName = "control.txt";
 	private final String siriUrl = "http://data.itsfactory.fi/siriaccess/vm/json";
-	private final int sleepTimeMs = 1000;
-	private final int numberOfErrorsToAllowBeforeGivingUp = 5;
+	private final int sleepTimeMs = 1000; // 1 second
+	private final int numberOfErrorsToAllowBeforeEnteringStandBy = 5;
+	private final int sleepTimeBetweenErrors = 60000; // 1 minute
 
 	private final ExecutorService pool = Executors.newFixedThreadPool(10);
 	private static Logger logger = Logger.getLogger(SiriDownload.class);
@@ -93,13 +93,16 @@ public class SiriDownload {
 			} catch (Exception e) {
 				logger.error(e);
 				numOfErrors++;
-				if (numOfErrors > numberOfErrorsToAllowBeforeGivingUp) {
-					logger.error("Exceeded error threshold, aborting");
-					return;
-				}
+				
 			} finally {
 				try {
-					Thread.sleep(sleepTimeMs); // Sleep for a while
+					int sleepTime = sleepTimeMs;
+					if (numOfErrors > numberOfErrorsToAllowBeforeEnteringStandBy) {
+						// If we have exceeded the error threshold, stop trying so hard. Enter standby mode, where we just try every now and then. Never give up the hope!
+						sleepTime = sleepTimeBetweenErrors;
+					}
+					
+					Thread.sleep(sleepTime); // Sleep for a while
 				} catch (InterruptedException e) {
 					logger.error(e);
 				} 
