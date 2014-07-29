@@ -26,8 +26,8 @@ import com.google.gson.Gson;
 
 public class SiriDownload {
 
-	private final String filePath = "../";
-	private final String outputFileName = "siridata.txt";
+	protected final static String filePath = "../";
+	protected final static String outputFileName = "siridata.txt";
 	private final String controlFileName = "control.txt";
 	private final String siriUrl = "http://data.itsfactory.fi/siriaccess/vm/json";
 	private final int sleepTimeMs = 1000; // 1 second
@@ -36,6 +36,7 @@ public class SiriDownload {
 
 	private final ExecutorService pool = Executors.newFixedThreadPool(10);
 	private static Logger logger = Logger.getLogger(SiriDownload.class);
+	private HadoopStorage storage = new HadoopStorage();
 
 	/**
 	 * Starts downloading Siri data to a file specified in code. Download can be
@@ -80,15 +81,9 @@ public class SiriDownload {
 				if (previousTimeStamp == null
 						|| stamp.doubleValue() != previousTimeStamp
 								.doubleValue()) {
-
-					try (PrintWriter out = new PrintWriter(new BufferedWriter(
-							new FileWriter(filePath + outputFileName, true)))) {
-						out.println(contents);
-						numOfErrors = 0; // reset errors upon successful
-											// retrieval
-						previousTimeStamp = stamp;
-					}
-
+					storage.saveData(contents);
+					previousTimeStamp = stamp;
+					numOfErrors = 0; // Reset errors upon successful save
 				}
 			} catch (Exception e) {
 				logger.error(e);

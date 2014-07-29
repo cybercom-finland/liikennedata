@@ -1,7 +1,9 @@
 package liikennedata.SiriDownload;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -9,6 +11,8 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -25,6 +29,47 @@ public class SiriMain {
 
 		 SiriDownload dl = new SiriDownload();
 		 dl.download();
+		 
+		 
+		// SiriDownload dl = new SiriDownload();
+			// dl.download();
+
+//			if (args.length == 0) {
+//				System.err.println("wrong argument list");
+//			}
+
+			// get the content user want to append
+			String content = "testtt";
+
+			// instantiate a configuration class
+
+//			Configuration conf = new Configuration();
+//			 conf.set("yarn.resourcemanager.address","localhost:9005");
+//			 conf.set("fs.defaultFS","hdfs://localhost:9000");
+//			 conf.set("mapreduce.framework.name", "yarn");
+//			 conf.set("yarn.resourcemanager.scheduler.address",
+//			 "localhost:8030");
+//			FileSystem fs = FileSystem.get(URI.create(""), conf);
+//			Path homeDir=fs.getHomeDirectory();
+//	        //Print the home directory
+//	        System.out.println("Home folder: " +homeDir); 
+//			boolean flag = Boolean.getBoolean(fs.getConf().get("dfs.support.append"));
+//
+//			System.out.println("dfs.support.append is set to be " + flag);
+//
+//			if (flag) {
+//				FSDataOutputStream fsout = fs.append(new Path(uri));
+//				PrintWriter writer = new PrintWriter(fsout);
+//				writer.append(content);
+//				writer.println();
+//				writer.close();
+//				fsout.close();
+//			} else {
+//				System.err.println("please set the dfs.support.append to be true");
+//			}
+//
+//			fs.close();
+		 
 		
 //	    Configuration conf = new Configuration();
 //	    String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
@@ -43,8 +88,8 @@ public class SiriMain {
 //	    FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
 //	    System.exit(job.waitForCompletion(true) ? 0 : 1);
 
-//		System.exit(0); // Called when the execution ends. For some reason the
-//						// process stays in background without this.
+		System.exit(0); // Called when the execution ends. For some reason the
+						// process stays in background without this.
 	}
 
 	public static class IntSumReducer extends
