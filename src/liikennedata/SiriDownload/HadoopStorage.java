@@ -1,6 +1,7 @@
 package liikennedata.SiriDownload;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,45 +13,51 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
 public class HadoopStorage {
-	
-	private final String uri = "hdfs://10.33.24.20:9000";
-	private final String file = "in.txt";
-	
-	public void saveData(final String contents) throws IOException {
-		try (PrintWriter out = new PrintWriter(new BufferedWriter(
-				new FileWriter(SiriDownload.filePath + SiriDownload.outputFileName, true)))) {
-			out.println(contents);
-		}
-	}
-	
+
+	//private final String uri = "hdfs://10.33.24.20:9000";
+	/***
+	 * Filename to be used in HDFS for the data. File will be created if doesn't exist.
+	 */
+	private final String file = "siridata.txt";
+
+	/**
+	 * Save the given data to normal filesystem
+	 * @param contents The data to be written
+	 * @throws IOException
+	 */
 //	public void saveData(final String contents) throws IOException {
-//		Configuration conf = new Configuration();
-//		 conf.set("yarn.resourcemanager.address","localhost:9005");
-//		 conf.set("fs.defaultFS","hdfs://localhost:9000");
-//		 conf.set("mapreduce.framework.name", "yarn");
-//		 conf.set("yarn.resourcemanager.scheduler.address",
-//		 "localhost:8030");
-//		FileSystem fs = FileSystem.get(URI.create(""), conf);
-//		Path homeDir=fs.getHomeDirectory();
-//       //Print the home directory
-//       System.out.println("Home folder: " +homeDir); 
-//		boolean flag = Boolean.getBoolean(fs.getConf().get("dfs.support.append"));
-//
-//		System.out.println("dfs.support.append is set to be " + flag);
-//
-//		if (flag) {
-//			FSDataOutputStream fsout = fs.append(new Path(file));
-//			PrintWriter writer = new PrintWriter(fsout);
-//			writer.append(contents);
-//			writer.println();
-//			writer.close();
-//			fsout.close();
-//		} else {
-//			System.err.println("please set the dfs.support.append to be true");
+//		try (PrintWriter out = new PrintWriter(new BufferedWriter(
+//				new FileWriter(SiriDownload.filePath
+//						+ file, true)))) {
+//			out.println(contents);
 //		}
-//
-//		fs.close();
 //	}
-	
+
+	/**
+	 * Save the given data to hadoop HDFS.
+	 * @param contents The data to be written
+	 * @throws IOException
+	 */
+	public void saveData(final String contents) throws IOException {
+		Configuration conf = new Configuration();
+		// conf.set("yarn.resourcemanager.address","localhost:9005");
+		// conf.set("fs.defaultFS","hdfs://localhost:9000");
+		// conf.set("mapreduce.framework.name", "yarn");
+		// conf.set("yarn.resourcemanager.scheduler.address", "localhost:8030");
+		FileSystem fs = FileSystem.get(URI.create(""), conf);
+
+		try (FSDataOutputStream fsout = fs.append(new Path(file))) {
+			PrintWriter writer = new PrintWriter(fsout);
+			writer.append(contents);
+			writer.println();
+			writer.close();
+		} catch (FileNotFoundException e) { // create the file
+			FSDataOutputStream fsout2 = fs.create(new Path(file));
+			fsout2.close();
+			saveData(contents); // call again to save the contents
+		}
+		fs.close();
+
+	}
 
 }

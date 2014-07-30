@@ -26,8 +26,7 @@ import com.google.gson.Gson;
 
 public class SiriDownload {
 
-	protected final static String filePath = "../";
-	protected final static String outputFileName = "siridata.txt";
+	protected final static String filePath = "./";
 	private final String controlFileName = "control.txt";
 	private final String siriUrl = "http://data.itsfactory.fi/siriaccess/vm/json";
 	private final int sleepTimeMs = 1000; // 1 second
@@ -81,6 +80,7 @@ public class SiriDownload {
 				if (previousTimeStamp == null
 						|| stamp.doubleValue() != previousTimeStamp
 								.doubleValue()) {
+								
 					storage.saveData(contents);
 					previousTimeStamp = stamp;
 					numOfErrors = 0; // Reset errors upon successful save
