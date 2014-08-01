@@ -57,6 +57,8 @@ public class SiriDownload {
 					+ " found, aborting");
 			return;
 		}
+		
+		logger.info("Starting download!");
 
 		int numOfErrors = 0;
 

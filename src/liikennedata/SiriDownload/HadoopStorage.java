@@ -44,20 +44,19 @@ public class HadoopStorage {
 		// conf.set("fs.defaultFS","hdfs://localhost:9000");
 		// conf.set("mapreduce.framework.name", "yarn");
 		// conf.set("yarn.resourcemanager.scheduler.address", "localhost:8030");
-		FileSystem fs = FileSystem.get(URI.create(""), conf);
-
-		try (FSDataOutputStream fsout = fs.append(new Path(file))) {
-			PrintWriter writer = new PrintWriter(fsout);
-			writer.append(contents);
-			writer.println();
-			writer.close();
-		} catch (FileNotFoundException e) { // create the file
-			FSDataOutputStream fsout2 = fs.create(new Path(file));
-			fsout2.close();
-			saveData(contents); // call again to save the contents
+		try (FileSystem fs = FileSystem.get(URI.create(""), conf)) {
+			Path path = new Path(file);
+			if (!fs.exists(path)) {
+				try (FSDataOutputStream fsout2 = fs.create(path)) { }
+			}
+	
+			try (FSDataOutputStream fsout = fs.append(path)) {
+				try (PrintWriter writer = new PrintWriter(fsout)) {
+					writer.append(contents);
+					writer.println();
+				}	
+			}
 		}
-		fs.close();
-
 	}
 
 }
