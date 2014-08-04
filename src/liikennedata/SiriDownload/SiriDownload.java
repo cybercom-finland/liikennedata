@@ -24,17 +24,50 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 
+/**
+ * Downloads Siri data from website in an infinite loop, with a N-second polling interval.
+ * The downloaded data is then stored with the HadoopStorage class.
+ * @author lapel1
+ *
+ */
 public class SiriDownload {
 
+	/**
+	 * The path where to save control file and errors file (in local filesystem)
+	 */
 	protected final static String filePath = "./";
+	/**
+	 * What is the name of the control file
+	 */
 	private final String controlFileName = "control.txt";
+	/**
+	 * URL to the Siri data
+	 */
 	private final String siriUrl = "http://data.itsfactory.fi/siriaccess/vm/json";
+	/**
+	 * How long to wait between two polls
+	 */
 	private final int sleepTimeMs = 1000; // 1 second
+	/**
+	 * How many errors we tolerate before we enter standby mode, where we start polling much less frequently
+	 */
 	private final int numberOfErrorsToAllowBeforeEnteringStandBy = 5;
+	/**
+	 * How long to wait between two polls if we have exceeded the tolerated error limit
+	 */
 	private final int sleepTimeBetweenErrors = 60000; // 1 minute
 
+	/**
+	 * A background thread for running (possibly) asynchronous tasks. The task to run is data downloading and it is run synchronously.
+	 */
 	private final ExecutorService pool = Executors.newFixedThreadPool(10);
+	/**
+	 * Logging class
+	 */
 	private static Logger logger = Logger.getLogger(SiriDownload.class);
+	/**
+	 * Reference to the Hadoop storage functionality
+	 */
 	private HadoopStorage storage = new HadoopStorage();
 
 	/**
@@ -134,7 +167,7 @@ public class SiriDownload {
 	 * Starts downloading contents of the URL. Adapted from
 	 * http://www.nurkiewicz.com/2013/02/javautilconcurrentfuture-basics.html
 	 * 
-	 * @param url
+	 * @param url The URL to download data from
 	 * @return
 	 * @throws IOException
 	 */
@@ -154,7 +187,7 @@ public class SiriDownload {
 	 * http://stackoverflow.com
 	 * /questions/309424/read-convert-an-inputstream-to-a-string
 	 * 
-	 * @param is
+	 * @param is The input stream
 	 * @return
 	 * @throws IOException
 	 */

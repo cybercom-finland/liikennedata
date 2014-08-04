@@ -10,8 +10,22 @@ import java.net.URLClassLoader;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Main class for accessing Siri data.
+ * Starts downloading the Siri data.
+ * 
+ * @author lapel1
+ *
+ */
 public class SiriMain {
 
+	/**
+	 * Main entry point to the program
+	 * @param args
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws InterruptedException
+	 */
 	public static void main(String[] args) throws IOException,
 			ClassNotFoundException, InterruptedException {
 

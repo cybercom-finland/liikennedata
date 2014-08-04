@@ -12,6 +12,12 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
+/**
+ * Class for storing and (in the future, possibly) retrieving string data in Hadoop/HDFS.
+ * 
+ * @author lapel1
+ *
+ */
 public class HadoopStorage {
 
 	//private final String uri = "hdfs://10.33.24.20:9000";
