@@ -1,0 +1,83 @@
+2014-08-06 14:28:03,776 ERROR Shell:336 - Failed to locate the winutils binary in the hadoop binary path
+java.io.IOException: Could not locate executable null\bin\winutils.exe in the Hadoop binaries.
+	at org.apache.hadoop.util.Shell.getQualifiedBinPath(Shell.java:318)
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:333)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:326)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:76)
+	at org.apache.hadoop.security.Groups.parseStaticMapping(Groups.java:93)
+	at org.apache.hadoop.security.Groups.<init>(Groups.java:77)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:240)
+	at org.apache.hadoop.security.UserGroupInformation.initialize(UserGroupInformation.java:255)
+	at org.apache.hadoop.security.UserGroupInformation.ensureInitialized(UserGroupInformation.java:232)
+	at org.apache.hadoop.security.UserGroupInformation.loginUserFromSubject(UserGroupInformation.java:718)
+	at org.apache.hadoop.security.UserGroupInformation.getLoginUser(UserGroupInformation.java:703)
+	at org.apache.hadoop.security.UserGroupInformation.getCurrentUser(UserGroupInformation.java:605)
+	at org.apache.hadoop.fs.FileSystem$Cache$Key.<init>(FileSystem.java:2554)
+	at org.apache.hadoop.fs.FileSystem$Cache$Key.<init>(FileSystem.java:2546)
+	at org.apache.hadoop.fs.FileSystem$Cache.get(FileSystem.java:2412)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:368)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:167)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:352)
+	at liikennedata.SiriDownload.HadoopStorage.saveData(HadoopStorage.java:53)
+	at liikennedata.SiriDownload.SiriDownload.download(SiriDownload.java:119)
+	at liikennedata.SiriDownload.SiriMain.main(SiriMain.java:33)
+2014-08-06 14:28:04,189 ERROR SiriDownload:124 - java.lang.NullPointerException
+2014-08-06 14:28:05,336 ERROR SiriDownload:124 - java.io.IOException: Not supported
+2014-08-06 14:28:06,421 ERROR SiriDownload:124 - java.io.IOException: Not supported
+2014-08-06 14:28:07,502 ERROR SiriDownload:124 - java.io.IOException: Not supported
+2014-08-06 14:28:08,599 ERROR SiriDownload:124 - java.io.IOException: Not supported
+2014-08-06 14:28:09,665 ERROR SiriDownload:124 - java.io.IOException: Not supported
+2014-08-06 16:15:56,956 ERROR SiriDownload:149 - java.lang.NullPointerException
+2014-08-06 16:15:58,006 ERROR SiriDownload:149 - java.lang.NullPointerException
+2014-08-06 16:15:59,080 ERROR SiriDownload:149 - java.lang.NullPointerException
+2014-08-06 16:16:00,129 ERROR SiriDownload:149 - java.lang.NullPointerException
+2014-08-06 16:16:01,178 ERROR SiriDownload:149 - java.lang.NullPointerException
+2014-08-06 17:08:08,575 ERROR SiriDownload:151 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:08:09,589 ERROR SiriDownload:151 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:08:10,601 ERROR SiriDownload:151 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:08:11,662 ERROR SiriDownload:151 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:08:12,674 ERROR SiriDownload:151 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:16:53,768 ERROR SiriDownload:140 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:19:58,472 ERROR SiriDownload:140 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:19:59,544 ERROR SiriDownload:140 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:20:00,562 ERROR SiriDownload:140 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:20:01,580 ERROR SiriDownload:140 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:20:02,603 ERROR SiriDownload:140 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:24:56,697 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:24:57,752 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:24:58,772 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:24:59,792 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:25:00,808 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:25:23,398 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:25:24,453 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:25:25,471 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:25:26,491 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:25:27,507 ERROR SiriDownload:142 - java.io.FileNotFoundException: http://data.itsfactory.fi/siriaccess/vm/json5
+2014-08-06 17:31:29,267 ERROR Shell:336 - Failed to locate the winutils binary in the hadoop binary path
+java.io.IOException: Could not locate executable null\bin\winutils.exe in the Hadoop binaries.
+	at org.apache.hadoop.util.Shell.getQualifiedBinPath(Shell.java:318)
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:333)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:326)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:76)
+	at org.apache.hadoop.security.Groups.parseStaticMapping(Groups.java:93)
+	at org.apache.hadoop.security.Groups.<init>(Groups.java:77)
+	at org.apache.hadoop.security.Groups.getUserToGroupsMappingService(Groups.java:240)
+	at org.apache.hadoop.security.UserGroupInformation.initialize(UserGroupInformation.java:255)
+	at org.apache.hadoop.security.UserGroupInformation.ensureInitialized(UserGroupInformation.java:232)
+	at org.apache.hadoop.security.UserGroupInformation.loginUserFromSubject(UserGroupInformation.java:718)
+	at org.apache.hadoop.security.UserGroupInformation.getLoginUser(UserGroupInformation.java:703)
+	at org.apache.hadoop.security.UserGroupInformation.getCurrentUser(UserGroupInformation.java:605)
+	at org.apache.hadoop.fs.FileSystem$Cache$Key.<init>(FileSystem.java:2554)
+	at org.apache.hadoop.fs.FileSystem$Cache$Key.<init>(FileSystem.java:2546)
+	at org.apache.hadoop.fs.FileSystem$Cache.get(FileSystem.java:2412)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:368)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:167)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:352)
+	at liikennedata.SiriDownload.HadoopStorage.saveData(HadoopStorage.java:53)
+	at liikennedata.SiriDownload.SiriDownload.download(SiriDownload.java:157)
+	at liikennedata.SiriDownload.SiriMain.main(SiriMain.java:33)
+2014-08-06 17:31:29,423 ERROR SiriDownload:162 - java.io.IOException: Not supported
+2014-08-06 17:31:30,538 ERROR SiriDownload:162 - java.io.IOException: Not supported
+2014-08-06 17:31:31,648 ERROR SiriDownload:162 - java.io.IOException: Not supported
+2014-08-06 17:31:32,723 ERROR SiriDownload:162 - java.io.IOException: Not supported
+2014-08-06 17:31:33,807 ERROR SiriDownload:162 - java.io.IOException: Not supported
