@@ -58,7 +58,8 @@
 
 
 		<!-- This is needed only due to some Eclipse bug - only needed for Eclipse 
-			builds -->
+			builds. But you have to comment this out for cloud packaging. -->
+		<!-- 
 		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
@@ -66,6 +67,7 @@
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
