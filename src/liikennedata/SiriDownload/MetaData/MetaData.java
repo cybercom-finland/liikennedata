@@ -18,7 +18,7 @@ public class MetaData {
 	/**
 	 * When was the data saved
 	 */
-	private Number SaveTimeStamp;
+	private Number SaveTimestamp;
 	/**
 	 * Source of the Siri data.
 	 */
@@ -30,11 +30,11 @@ public class MetaData {
 	public void setHttpStatus(Number httpStatus) {
 		HttpStatus = httpStatus;
 	}
-	public Number getSaveTimeStamp() {
-		return SaveTimeStamp;
+	public Number getSaveTimestamp() {
+		return SaveTimestamp;
 	}
-	public void setSaveTimeStamp(Number saveTimeStamp) {
-		SaveTimeStamp = saveTimeStamp;
+	public void setSaveTimestamp(Number saveTimestamp) {
+		SaveTimestamp = saveTimestamp;
 	}
 	public SiriDataSource getDataSource() {
 		return DataSource;

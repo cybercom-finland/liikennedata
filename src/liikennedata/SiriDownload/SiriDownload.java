@@ -126,7 +126,7 @@ public class SiriDownload {
 				int code = connection.getResponseCode();
 
 				MetaData metaData = new MetaData();
-				metaData.setSaveTimeStamp(new Date().getTime());
+				metaData.setSaveTimestamp(new Date().getTime());
 				metaData.setHttpStatus(code);
 				metaData.setDataSource(SiriDataSource.Tampere);
 
