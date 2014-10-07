@@ -45,6 +45,29 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin> <!-- This plugin fixes problem with case-insensitive file system (such as Windows) when packaging the files.
+			 This package is only needed for case-insensitive file systems.
+			 Taken mostly from the following address but using a newer version due to incompatibility problems: 
+			 http://stackoverflow.com/questions/10522835/hadoop-java-io-ioexception-mkdirs-failed-to-create-some-path -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -53,9 +76,6 @@
 	</properties>
 
 	<dependencies>
-
-
-
 
 		<!-- This is needed only due to some Eclipse bug - only needed for Eclipse 
 			builds. But you have to comment this out for cloud packaging. -->
@@ -84,6 +104,24 @@
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-hdfs</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-jobclient</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-common</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-shuffle</artifactId>
 			<version>2.4.1</version>
 		</dependency>
 
