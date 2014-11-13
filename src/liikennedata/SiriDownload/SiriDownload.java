@@ -67,14 +67,9 @@ public class SiriDownload {
 	private final int sleepTimeBetweenErrors = 60000; // 1 minute
 
 	/**
-	 * A background thread for running (possibly) asynchronous tasks. The task
-	 * to run is data downloading and it is run synchronously.
-	 */
-	private final ExecutorService pool = Executors.newFixedThreadPool(10);
-	/**
 	 * Logging class
 	 */
-	private static Logger logger = Logger.getLogger(SiriDownload.class);
+	private Logger logger = Logger.getLogger(SiriDownload.class);
 	/**
 	 * Reference to the Hadoop storage functionality
 	 */
@@ -84,11 +79,8 @@ public class SiriDownload {
 	 * Starts downloading Siri data to a file specified in code. Download can be
 	 * interrupted by adding value "0" in file control.txt
 	 * 
-	 * @throws InterruptedException
-	 * @throws IOException
-	 * @throws ExecutionException
 	 */
-	public void download() throws IOException {
+	public void download() {
 
 		Number previousTimeStamp = null;
 		Number stamp = null;
@@ -101,6 +93,7 @@ public class SiriDownload {
 		}
 
 		logger.info("Starting download!");
+		logger.error("Testing error logging");
 
 		int numOfErrors = 0;
 		HttpURLConnection connection = null;
@@ -109,14 +102,9 @@ public class SiriDownload {
 			try {
 				stamp = null;
 				if (shouldAbort()) {
-					logger.info("Control set to inactive, stopping download");
+					logger.error("Control set to inactive, stopping download");
 					return;
 				}
-
-				// final Future<String> contentsFuture = startDownloading(new
-				// URL(
-				// siriUrl));
-				// final String contents = contentsFuture.get();
 
 				URL url = new URL(siriUrl);
 				connection = (HttpURLConnection) url.openConnection();
@@ -149,23 +137,32 @@ public class SiriDownload {
 					numOfErrors++;
 				}
 
-				// Only write data if the timestamp has changed or if there is no timestamp (means probably no siri data)
+				// Only write data if the timestamp has changed or if there is
+				// no timestamp (means probably no siri data)
 				if (previousTimeStamp == null
-						|| stamp == null || stamp.doubleValue() != previousTimeStamp
+						|| stamp == null
+						|| stamp.doubleValue() != previousTimeStamp
 								.doubleValue()) {
 
 					storage.saveData(gson.toJson(root, DataRoot.class));
 					previousTimeStamp = stamp;
 					numOfErrors = 0; // Reset errors upon successful save
+
 				}
 			} catch (Exception e) {
+				logger.error("General exception");
 				logger.error(e);
 				numOfErrors++;
 
 			} finally {
 				try {
 					if (connection != null) {
-						connection.disconnect();
+						try {
+							connection.disconnect();
+						} catch (Exception e) {
+							logger.error("Error closing connection");
+							logger.error(e);
+						}
 					}
 
 					int sleepTime = sleepTimeMs;
@@ -177,12 +174,11 @@ public class SiriDownload {
 					}
 
 					Thread.sleep(sleepTime); // Sleep for a while
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
 			}
 		}
-
 	}
 
 	/**

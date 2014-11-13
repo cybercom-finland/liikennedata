@@ -1,6 +1,7 @@
 package liikennedata.SiriDownload;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -9,6 +10,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
+
+import org.apache.log4j.Logger;
 
 /**
  * Main class for accessing Siri data.
@@ -19,6 +22,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class SiriMain {
 
+	private static Logger logger = Logger.getLogger(SiriMain.class);
+	
 	/**
 	 * Main entry point to the program
 	 * @param args
@@ -31,6 +36,8 @@ public class SiriMain {
 
 		SiriDownload dl = new SiriDownload();
 		dl.download();
+		
+		logger.error("Exiting");
 
 		System.exit(0); // Called when the execution ends. For some reason the
 						// process stays in background without this.

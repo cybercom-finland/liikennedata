@@ -6,11 +6,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.DistributedFileSystem;
+import org.apache.log4j.Logger;
 
 /**
  * Class for storing and (in the future, possibly) retrieving string data in Hadoop/HDFS.
@@ -20,24 +25,25 @@ import org.apache.hadoop.fs.Path;
  */
 public class HadoopStorage {
 
-	//private final String uri = "hdfs://10.33.24.20:9000";
-	/***
+	/**
+	 * Whether to use HDFS or not.
+	 * If true, stores data to HDFS.
+	 * If false, stores data locally.
+	 */
+	private final boolean useHDFS = true;
+	/**
 	 * Filename to be used in HDFS for the data. File will be created if doesn't exist.
 	 */
 	private final String file = "siridata.txt";
-
+	
+	private Path path = new Path(file);
+	
+	private static Logger logger = Logger.getLogger(HadoopStorage.class);
+	
 	/**
-	 * Save the given data to normal filesystem
-	 * @param contents The data to be written
-	 * @throws IOException
+	 * Buffer to use for writing
 	 */
-//	public void saveData(final String contents) throws IOException {
-//		try (PrintWriter out = new PrintWriter(new BufferedWriter(
-//				new FileWriter(SiriDownload.filePath
-//						+ file, true)))) {
-//			out.println(contents);
-//		}
-//	}
+	private WriterBuffer buffer = new WriterBuffer();
 
 	/**
 	 * Save the given data to hadoop HDFS.
@@ -50,19 +56,54 @@ public class HadoopStorage {
 		// conf.set("fs.defaultFS","hdfs://localhost:9000");
 		// conf.set("mapreduce.framework.name", "yarn");
 		// conf.set("yarn.resourcemanager.scheduler.address", "localhost:8030");
-		try (FileSystem fs = FileSystem.get(URI.create(""), conf)) {
-			Path path = new Path(file);
-			if (!fs.exists(path)) {
-				try (FSDataOutputStream fsout2 = fs.create(path)) { }
+		
+		buffer.add(contents);
+		ArrayList<String> bufferedData = buffer.getReadyBufferedContent();
+		
+		// Only store data if the buffer gave us some ready data. Buffer decides if we should store data or not.
+		if (bufferedData.size() > 0) {
+			
+			if (!useHDFS) {
+				try (PrintWriter out = new PrintWriter(new BufferedWriter(
+				new FileWriter(SiriDownload.filePath
+						+ file, true)))) {
+					for (String str : bufferedData) {
+						out.println(str);				
+					}		
+				}
 			}
-	
-			try (FSDataOutputStream fsout = fs.append(path)) {
-				try (PrintWriter writer = new PrintWriter(fsout)) {
-					writer.append(contents);
-					writer.println();
-				}	
+			
+			else {
+				try (FileSystem fs = DistributedFileSystem.get(conf)) {					
+					// If the file doesn't exist, create it
+					if (!fs.exists(path)) {
+						try (FSDataOutputStream fsout2 = fs.create(path)) { }
+					}
+			
+					try (FSDataOutputStream fsout = fs.append(path)) {
+						try (PrintWriter writer = new PrintWriter(fsout)) {
+							//logger.info("Starting append on thread: " + Thread.currentThread().getId() + " stamp: " + new SimpleDateFormat("yyyyddMM-HHmmss").format(new Date()));
+							
+							for (String str : bufferedData) {
+								writer.println(str);
+							}						
+							
+							//logger.info("Ending append on thread: " + Thread.currentThread().getId() + " stamp: " + new SimpleDateFormat("yyyyddMM-HHmmss").format(new Date()));
+						}	catch (Exception e) {
+							logger.error("writer error: " + e);
+						}
+					} catch (Exception e) {
+						logger.error("FSData error: " + e);
+					}
+				} catch (Exception e) {
+					logger.error("Stream error: " + e);
+				}
 			}
+			
+			buffer.emptyBuffer(); // We may have lost data (not saved it) due to exceptions.
 		}
 	}
 
 }
+
+
